@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects - Task Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Projects</h1>
+    <a href="{% url 'project_create' %}" class="btn btn-success">
+        <i class="bi bi-folder-plus"></i> New Project
+    </a>
+</div>
+
+<div class="row">
+    {% for project in projects %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'project_detail' project.slug %}" class="text-decoration-none">{{ project.name }}</a>
+                    </h5>
+                    <p class="card-text text-muted">{{ project.description|truncatewords:15 }}</p>
+                    <p class="mb-1"><strong>Owner:</strong> {{ project.owner.username }}</p>
+                    <p class="mb-1"><strong>Members:</strong> {{ project.members.count }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="badge bg-{{ project.status|lower }}">{{ project.get_status_display }}</span>
+                        <span class="badge bg-{{ project.priority|lower }}">{{ project.get_priority_display }}</span>
+                    </div>
+                    <div class="progress mt-3" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ project.progress_percentage }}%">
+                            {{ project.progress_percentage }}%
+                        </div>
+                    </div>
+                    <small class="text-muted">{{ project.completed_tasks }}/{{ project.total_tasks }} tasks completed</small>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No projects found.</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

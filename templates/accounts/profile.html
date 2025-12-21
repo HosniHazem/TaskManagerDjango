@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ profile_user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                {% if profile_user.profile_picture %}
+                    <img src="{{ profile_user.profile_picture.url }}" class="profile-picture mb-3" alt="Profile">
+                {% else %}
+                    <div class="profile-picture mb-3 bg-primary text-white d-flex align-items-center justify-content-center" 
+                         style="font-size: 4rem; margin: 0 auto;">
+                        {{ profile_user.username|first|upper }}
+                    </div>
+                {% endif %}
+                <h3>{{ profile_user.get_full_name }}</h3>
+                <p class="text-muted">@{{ profile_user.username }}</p>
+                {% if profile_user.job_title %}
+                    <p><strong>{{ profile_user.job_title }}</strong></p>
+                {% endif %}
+                {% if profile_user.department %}
+                    <p class="text-muted">{{ profile_user.department }}</p>
+                {% endif %}
+                {% if user == profile_user %}
+                    <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5>About</h5>
+                {% if profile_user.bio %}
+                    <p>{{ profile_user.bio }}</p>
+                {% else %}
+                    <p class="text-muted">No bio available.</p>
+                {% endif %}
+                
+                {% if profile_user.location %}
+                    <p><i class="bi bi-geo-alt"></i> {{ profile_user.location }}</p>
+                {% endif %}
+                {% if profile_user.email %}
+                    <p><i class="bi bi-envelope"></i> {{ profile_user.email }}</p>
+                {% endif %}
+                <p><i class="bi bi-calendar"></i> Joined {{ profile_user.date_joined|date:"M Y" }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h3>{{ profile_user.total_tasks }}</h3>
+                        <p class="text-muted">Total Tasks</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>{{ profile_user.completed_tasks }}</h3>
+                        <p class="text-muted">Completed</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>{{ projects.count }}</h3>
+                        <p class="text-muted">Projects</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Recent Tasks</h5>
+            </div>
+            <div class="card-body">
+                {% if tasks %}
+                    <ul class="list-group list-group-flush">
+                        {% for task in tasks %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a>
+                                <span class="badge bg-{{ task.status|lower }}">{{ task.get_status_display }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No tasks assigned.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5>Projects</h5>
+            </div>
+            <div class="card-body">
+                {% if projects %}
+                    <ul class="list-group list-group-flush">
+                        {% for project in projects %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <a href="{% url 'project_detail' project.slug %}">{{ project.name }}</a>
+                                <span class="badge bg-{{ project.status|lower }}">{{ project.get_status_display }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No projects yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

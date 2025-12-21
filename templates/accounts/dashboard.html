@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Task Manager{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Welcome, {{ user.get_full_name|default:user.username }}!</h1>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-list-task"></i> Total Tasks</h5>
+                <h2>{{ total_tasks }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-check-circle"></i> Completed</h5>
+                <h2>{{ completed_tasks }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-clock"></i> Pending</h5>
+                <h2>{{ pending_tasks }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-folder"></i> Projects</h5>
+                <h2>{{ total_projects }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Tasks</h5>
+                <a href="{% url 'task_list' %}" class="btn btn-sm btn-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_tasks %}
+                    <ul class="list-group list-group-flush">
+                        {% for task in recent_tasks %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a>
+                                    <br><small class="text-muted">{{ task.project.name }}</small>
+                                </div>
+                                <span class="badge bg-{{ task.status|lower }}">{{ task.get_status_display }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No tasks assigned yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Projects</h5>
+                <a href="{% url 'project_list' %}" class="btn btn-sm btn-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_projects %}
+                    <ul class="list-group list-group-flush">
+                        {% for project in recent_projects %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <a href="{% url 'project_detail' project.slug %}">{{ project.name }}</a>
+                                    <br><small class="text-muted">{{ project.total_tasks }} tasks</small>
+                                </div>
+                                <span class="badge bg-{{ project.status|lower }}">{{ project.get_status_display }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No projects yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Quick Actions</h5>
+                <a href="{% url 'task_create' %}" class="btn btn-primary me-2">
+                    <i class="bi bi-plus-circle"></i> New Task
+                </a>
+                <a href="{% url 'project_create' %}" class="btn btn-success">
+                    <i class="bi bi-folder-plus"></i> New Project
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

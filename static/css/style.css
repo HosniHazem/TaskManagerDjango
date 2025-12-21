@@ -1,0 +1,180 @@
+/* Custom styles for Task Manager */
+
+:root {
+    --primary-color: #0d6efd;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.badge {
+    padding: 0.5em 0.75em;
+}
+
+/* Status colors */
+.bg-todo {
+    background-color: #6c757d !important;
+}
+
+.bg-in_progress {
+    background-color: #0dcaf0 !important;
+}
+
+.bg-review {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.bg-completed {
+    background-color: #198754 !important;
+}
+
+.bg-blocked {
+    background-color: #dc3545 !important;
+}
+
+/* Priority colors */
+.bg-low {
+    background-color: #6c757d !important;
+}
+
+.bg-medium {
+    background-color: #0dcaf0 !important;
+}
+
+.bg-high {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.bg-urgent, .bg-critical {
+    background-color: #dc3545 !important;
+}
+
+/* Project status colors */
+.bg-planning {
+    background-color: #6c757d !important;
+}
+
+.bg-active {
+    background-color: #198754 !important;
+}
+
+.bg-on_hold {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.bg-cancelled {
+    background-color: #dc3545 !important;
+}
+
+.progress {
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    background-color: var(--success-color);
+}
+
+/* Form styling */
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Button hover effects */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Dashboard cards */
+.bg-primary .card-body h5,
+.bg-primary .card-body h2,
+.bg-success .card-body h5,
+.bg-success .card-body h2,
+.bg-warning .card-body h5,
+.bg-warning .card-body h2,
+.bg-info .card-body h5,
+.bg-info .card-body h2 {
+    margin: 0;
+}
+
+/* List items */
+.list-group-item {
+    border-left: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.list-group-item:hover {
+    border-left-color: var(--primary-color);
+    background-color: #f8f9fa;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 0.5rem;
+}
+
+/* Profile picture */
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+}
+
+/* Comment section */
+.border-bottom:last-child {
+    border-bottom: none !important;
+}
